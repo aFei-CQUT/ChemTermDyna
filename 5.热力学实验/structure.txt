@@ -1,0 +1,55 @@
+|-- 文件夹: 1.docFiles
+|   |-- 文件: 二元汽液平衡数据测定实验.doc
+|   |-- 文件: 化学工程与工艺专业实验报告册（试行）.doc
+|-- 文件夹: 2.pdfFiles
+|-- 文件夹: 3.typst
+|   |-- 文件夹: example
+|   |   |-- 文件夹: images
+|   |   |-- 文件: less-elegant-note.typ
+|   |   |-- 文件: ref.bib
+|   |-- 文件夹: experiment
+|   |   |-- 文件: experiment1.typ
+|   |   |-- 文件: experiment2.typ
+|   |   |-- 文件夹: images
+|   |-- 文件夹: layouts
+|   |   |-- 文件: appendix.typ
+|   |   |-- 文件: doc.typ
+|   |   |-- 文件: mainmatter.typ
+|   |   |-- 文件: preface.typ
+|   |-- 文件: lib.typ
+|   |-- 文件夹: pages
+|   |   |-- 文件: elegant-cover.typ
+|   |   |-- 文件: fonts-display-page.typ
+|   |   |-- 文件: outline-page.typ
+|   |-- 文件夹: utils
+|   |   |-- 文件: chem-for.typ
+|   |   |-- 文件: cite-style.typ
+|   |   |-- 文件: custom-heading.typ
+|   |   |-- 文件: custom-numbering.typ
+|   |   |-- 文件: indent.typ
+|   |   |-- 文件: invisible-heading.typ
+|   |   |-- 文件: justify-text.typ
+|   |   |-- 文件: style.typ
+|   |   |-- 文件: theorem.typ
+|   |   |-- 文件: unpairs.typ
+|-- 文件: experiment1.jl
+|-- 文件: experiment1_data.csv
+|-- 文件夹: experiment1_res
+|   |-- 文件: results.csv
+|-- 文件: experiment2.jl
+|-- 文件: experiment2_data.csv
+|-- 文件夹: experiment2_res
+|   |-- 文件: processed_data_group_1.csv
+|   |-- 文件: processed_data_group_10.csv
+|   |-- 文件: processed_data_group_2.csv
+|   |-- 文件: processed_data_group_3.csv
+|   |-- 文件: processed_data_group_4.csv
+|   |-- 文件: processed_data_group_5.csv
+|   |-- 文件: processed_data_group_6.csv
+|   |-- 文件: processed_data_group_7.csv
+|   |-- 文件: processed_data_group_8.csv
+|   |-- 文件: processed_data_group_9.csv
+|-- 文件: structure.py
+|-- 文件: structure.txt
+|-- 文件: task1.txt
+|-- 文件: task2.txt
