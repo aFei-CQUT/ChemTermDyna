@@ -47,14 +47,14 @@ def prausnitz_mixture_params(Tc, Pc, Vc, Zc, omega, k_ij):
     omega_ij = (omega[:, None] + omega) / 2
     return np.stack([Tc_ij, Pc_ij, Vc_ij, Zc_ij, omega_ij], axis=-1)
 
-# 计算虚拟混合临界参数 + 虚拟混合偏心因子 + 交互作用参数
+# 计算混合参数（交叉项）
 mixture_params_table = prausnitz_mixture_params(Tc, Pc, Vc, Zc, omega, k_ij)
 columns = ["T_c / K", "p_c / Pa", "V_c / (m³/mol)", "Z_c", "omega"]
 df_params = pd.DataFrame(mixture_params_table.reshape(-1, 5),
                          index=["ii", "ij", "ji", "jj"], columns=columns)
 
-# 使用 tabulate 输出虚拟混合临界参数 + 虚拟混合偏心因子 + 交互作用参数
-print("混合物虚拟混合临界参数 + 虚拟混合偏心因子 + 交互作用参数：")
+# 使用 tabulate 输出混合参数（交叉项）
+print("混合参数（交叉项）：")
 print(tabulate(df_params, headers='keys', tablefmt='grid', showindex=True))
 
 # %% 计算第二维里系数 B（适用于纯物质）

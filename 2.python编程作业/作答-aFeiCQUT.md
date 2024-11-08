@@ -312,33 +312,33 @@ graph TD
     B --> C[Kay规则计算虚拟临界参数]
     C --> D[计算虚拟临界对比参数]
     D --> E[输出虚拟临界参数]
-    
     E -->|显示虚拟临界参数| O[Kay规则输出]
-    E --> F[Prausnitz混合规则计算交叉项]
-    F -->|输入Tc, Pc, Vc, Zc, omega, k_ij| P[交叉项计算]
-
-    F --> G[计算虚拟混合临界参数 + 偏心因子 + 交互作用参数]
-    G -->|显示虚拟混合临界参数表| P[虚拟混合临界参数表]
     
-    G --> H[计算第二维里系数 B]
-    H -->|输入Tr| Tr_matrix
+    subgraph 注意
+    T[Kay规则仅用于判断使用哪种方法，
+    	不带入后续计算]
+    end
     
-    H --> I[计算维里系数矩阵 B]
-    I -->|显示维里系数表| Q[维里系数表]
-    I --> J[计算混合维里系数 B_m]
+    C --- T
     
-    J -->|计算混合维里系数| R[计算B_m]
-    J --> K[计算混合压缩因子 Z_m]
+    B --> F[Prausnitz混合规则计算交叉项]
+    F -->|输入Tc, Pc, Vc, Zc, omega, k_ij| G[计算混合参数]
     
-    K -->|计算压缩因子 Z_m| S[计算Z_m]
-    K --> L[计算体积流量]
+    G --> H[输出混合参数表]
+    H -->|显示混合参数表| Q[混合参数表]
     
-    L -->|使用Z_m, P, T, m_mix, M, y| volume_flow_mix
-    L -->|计算体积流量| T[计算体积流量]
+    G --> I[计算第二维里系数 B]
+    I -->|计算B0, B1, B矩阵| J[维里系数矩阵]
     
-    L --> M[输出结果]
-    M -->|显示结果| N[打印输出]
-
+    J --> K[输出维里系数表]
+    K -->|显示维里系数表| R[维里系数表]
+    
+    J --> L[计算混合维里系数 B_m]
+    L --> M[计算混合压缩因子 Z_m]
+    
+    M --> N[计算体积流量]
+    
+    N --> S[输出最终结果]
 ```
 
 
@@ -396,14 +396,14 @@ def prausnitz_mixture_params(Tc, Pc, Vc, Zc, omega, k_ij):
     omega_ij = (omega[:, None] + omega) / 2
     return np.stack([Tc_ij, Pc_ij, Vc_ij, Zc_ij, omega_ij], axis=-1)
 
-# 计算虚拟混合临界参数 + 虚拟混合偏心因子 + 交互作用参数
+# 计算混合参数（交叉项）
 mixture_params_table = prausnitz_mixture_params(Tc, Pc, Vc, Zc, omega, k_ij)
 columns = ["T_c / K", "p_c / Pa", "V_c / (m³/mol)", "Z_c", "omega"]
 df_params = pd.DataFrame(mixture_params_table.reshape(-1, 5),
                          index=["ii", "ij", "ji", "jj"], columns=columns)
 
-# 使用 tabulate 输出虚拟混合临界参数 + 虚拟混合偏心因子 + 交互作用参数
-print("混合物虚拟混合临界参数 + 虚拟混合偏心因子 + 交互作用参数：")
+# 使用 tabulate 输出混合参数（交叉项）
+print("混合参数（交叉项）：")
 print(tabulate(df_params, headers='keys', tablefmt='grid', showindex=True))
 
 # %% 计算第二维里系数 B（适用于纯物质）
