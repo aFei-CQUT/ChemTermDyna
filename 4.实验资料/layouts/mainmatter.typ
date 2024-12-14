@@ -7,7 +7,6 @@
 #import "../utils/indent.typ": fake-par
 #import "../utils/unpairs.typ": unpairs
 
-
 #let mainmatter(
   // documentclass 传入参数
   twoside: false,
@@ -59,26 +58,22 @@
 
   // 文本和段落样式
   set text(font: text-font, size: text-size)
-
-  set par(leading: par-leading, justify: true, first-line-indent: 2em)
-  show par: set block(spacing: par-spacing)
+  
+  // 修改：使用 set par 替代 show par: set block
+  set par(leading: par-leading, justify: true, first-line-indent: 2em, spacing: par-spacing)
 
   // 特殊类型文本
   // 代码块
-
   show: codly-init.with()
   codly(display-name: false)
 
-  // set block(width: 60%)
   show raw: it => {
     set text(font: 字体.等宽)
-    
     it
   }
 
   show emph: it => {
     set text(weight: "bold")
-    // show: show-cn-fakebold // 伪加粗
     it
   }
 
@@ -89,8 +84,10 @@
 
   // 设置脚注
   show footnote.entry: set text(font: 字体.宋体, size: 字号.五号)
+  
   // 设置 equation 的编号和假段落首行缩进
   show math.equation.where(block: true): i-figured.show-equation
+  
   // 设置 figure 的编号，表格表头置顶 + 不用冒号用空格分割 + 样式
   show heading: i-figured.reset-counters
   show figure: i-figured.show-figure
@@ -99,11 +96,9 @@
   show figure.caption: set text(font: 字体.宋体, size: 字号.小五)
 
   // 处理标题
-  // 设置标题的 numbering
   set heading(numbering: custom-numbering.with(style: info.numbering-style))
-  // counter(heading).update(0)
+  
   show heading: it => {
-    // 设置字体字号
     set text(
       font: array-at(heading-font, it.level),
       size: array-at(heading-size, it.level),
@@ -113,13 +108,12 @@
     )
     set block(above: array-at(heading-above, it.level), below: array-at(heading-below, it.level))
     it
-    fake-par //加入假段落模拟首行缩进
+    fake-par
   }
 
   // 标题居中与自动换页
   show heading: it => {
     if (array-at(heading-pagebreak, it.level)) {
-      // 如果打上了 no-auto-pagebreak 标签，则不自动换页
       if ("label" not in it.fields() or str(it.label) != "no-auto-pagebreak") {
         pagebreak(weak: true)
       }
@@ -133,21 +127,20 @@
   }
 
   // 处理列表
-  // 无序列表 list
-  set list(indent: 1.3em, body-indent: 0.4em) //marker: ("•","·")
+  set list(indent: 1.3em, body-indent: 0.4em)
   show list: it => {
     set block(above: 0.7em, below: 0.7em)
     it
     fake-par
   }
-  // 有序列表 enum
+  
   set enum(indent: 0.8em, body-indent: 0.4em, numbering: "1.")
   show enum: it => {
     set block(above: 0.7em, below: 0.7em)
     it
     fake-par
   }
-  // 术语列表 terms
+  
   set terms(indent: 0em, hanging-indent: 2.65em)
   show terms: it => {
     set block(above: 0.7em, below: 0.7em)
@@ -163,17 +156,13 @@
     if display-header {
       (
         header: {
-          // 重置 footnote 计数器
           if reset-footnote {
             counter(footnote).update(0)
           }
           locate(loc => {
-            // 5.1 获取当前页面的一级标题
             let cur-heading = current-heading(level: 1, loc)
-            // 5.2 如果当前页面没有一级标题，则渲染页眉
             if not skip-on-first-level or cur-heading == none {
               if header-render == auto {
-                // 一级标题和二级标题
                 let first-level-heading = if not twoside or calc.rem(loc.page(), 2) == 0 {
                   heading-display(active-heading(level: 1, loc))
                 } else {
@@ -195,7 +184,7 @@
               } else {
                 header-render(loc)
               }
-              v(0em) // header-vspace
+              v(0em)
             }
           })
         },
@@ -203,7 +192,6 @@
     } else {
       (
         header: {
-          // 重置 footnote 计数器
           if reset-footnote {
             counter(footnote).update(0)
           }
@@ -212,15 +200,13 @@
     }
   ))
 
-  // 处理页脚的页码
-  set page(footer: [
+  // 修改：使用 context 包装 counter.display
+  set page(footer: context [
     #align(center)[
       #text(counter(page).display("1"))
     ]
   ])
   counter(page).update(1)
-
-
 
   it
 }
