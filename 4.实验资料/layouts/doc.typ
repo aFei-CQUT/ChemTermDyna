@@ -1,5 +1,12 @@
 // 文稿设置，可以进行一些像页面边距这类的全局设置
 #import "@preview/cuti:0.2.1": show-cn-fakebold
+// 在doc函数中：
+#import "../utils/cite-styles.typ": custom-link, custom-cite
+
+
+
+// -------------------------------------------------------
+
 
 
 #let doc(
@@ -22,13 +29,19 @@
   if type(info.title) == str {
     info.title = info.title.split("\n")
   }
+  
   // 3.  PDF 元信息
   set document(
     title: (("",)+ info.title).sum(),
     author: info.author,
   )
+  
   // 4.  基本的样式设置
   show: show-cn-fakebold // 伪加粗
+
+  // 5.  链接样式和引用样式
+  show link: custom-link
+  show cite: custom-cite
 
   set page(margin: margin)
   set text(fallback: fallback, lang: lang)

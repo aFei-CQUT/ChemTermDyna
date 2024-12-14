@@ -1,7 +1,7 @@
 // 一个简单的自定义 Numbering
 #let custom-numbering(style:"literature",..args) = {
-  let literature-numbering=("涉及到计算的步骤一 ","第一节 ","一、","　　（一）")
-  let maths-numbering=("涉及到计算的步骤一 ","1.1 ","1.1.1 ","（1）")
+  let literature-numbering=("涉及到的计算一 ","第一节 ","一、","　　（一）")
+  let maths-numbering=("涉及到的计算一 ","1.1 ","1.1.1 ","（1）")
   
   let heading-numbering=""
 
