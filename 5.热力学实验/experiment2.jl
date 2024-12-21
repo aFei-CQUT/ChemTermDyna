@@ -24,8 +24,8 @@ data.P = parse.(Float64, replace.(data.P_str, "*" => ""))
 data.h = parse.(Float64, replace.(data.h_str, "*" => ""))
 
 # 常量
-k = 29.038  # 质面比常数 (单位: kg/m²)
-h0 = 359    # 毛细管顶端刻度 (单位: mm)
+k = (332 / 1000) / 0.00124 # 质面比常数 (单位: kg/m²)
+h0 = 359               # 毛细管顶端刻度 (单位: mm)
 
 # 处理数据的函数
 function process_data(group)
@@ -47,6 +47,7 @@ function process_data(group)
         push!(df, (T, P, h, V, is_starred))
     end
 
+    sort!(df, :V)  # 按比容排序
     return df
 end
 
@@ -58,7 +59,7 @@ processed_data = [process_data(group) for group in groups]
 plot(size=(1000, 700), legend=:topright, grid=true, gridstyle=:dash, gridalpha=0.5,
     bottom_margin=10mm, left_margin=10mm);
 for df in processed_data
-    plot!(df.V, df.P, label="T = $(df.T[1])°C", marker=:circle, markersize=4)
+    plot!(df.V, df.P, label="T = $(df.T[1])°C", marker=:circle, markersize=4, linewidth=2)
     # 用不同的标记显示带星号的点
     starred_points = df[df.is_starred, :]
     scatter!(starred_points.V, starred_points.P, label="", marker=:star, markersize=6)
@@ -68,8 +69,8 @@ ylabel!("Pressure (MPa)");
 title!("P-V Diagram for CO₂");
 
 # 调整 x 轴
-xlims!(0, 0.0100);
-x_ticks = 0:0.0005:0.0100
+xlims!(0, 0.0015);
+x_ticks = 0:0.0001:0.0015
 x_labels = ["$(round(x, digits=4))" for x in x_ticks]
 xticks!(x_ticks, x_labels, rotation=45, tickfont=font(8));
 
@@ -78,7 +79,7 @@ ylims!(0, 10);
 yticks!(0:1:10)
 
 # 保存图像
-savefig("./experiment2_res/P-V_diagram.png")
+savefig("./experiment2_res/P-V.png")
 
 # 输出处理后的数据
 for (i, df) in enumerate(processed_data)
