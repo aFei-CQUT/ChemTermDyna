@@ -78,7 +78,7 @@ ylims!(0, 10);
 yticks!(0:1:10)
 
 # 保存图像
-savefig("./experiment2_res/P-V_diagram.png")
+savefig("./experiment2_res/P-V.png")
 
 # 输出处理后的数据
 for (i, df) in enumerate(processed_data)
