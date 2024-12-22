@@ -73,83 +73,84 @@ t—x—y曲线图反映了系统温度与液相和气相组成的关系，x—y
 
 = 数据处理<no-auto-pagebreak>
 
-== 组分浓度计算
+== 计算公式
+
+=== 质量分数计算
 
 使用以下回归方程计算乙醇的质量分数：
 
-$ W = 58.844116 - 42.61325 times n_D $
+$ w_1 = 58.844116 - 42.61325 n_D $
 
-其中，$W$为乙醇的质量分数，$n_D$为折光仪读数。
+其中，$w_1$为乙醇的质量分数，$n_D$为折光仪读数。
 
-然后使用以下公式将质量分数转换为摩尔分数：
+=== 摩尔分数计算
 
-$ X_A = (W_A / M_A) / ((W_A / M_A) + ((1 - W_A) / M_B)) $
+使用以下公式将质量分数转换为摩尔分数：
 
-其中，$X_A$为乙醇的摩尔分数，$M_A = 46$为乙醇的分子量，$M_B = 60$为正丙醇的分子量。
+$ x_1 = (w_1 / M_1) / ((w_1 / M_1) + (w_2 / M_2)) $
 
-=== 液相计算示例
+其中，$x_1$为乙醇的摩尔分数，$M_1 = 46 "g/mol"$为乙醇的摩尔质量，$M_2 = 60 "g/mol"$为正丙醇的摩尔质量。
+
+=== 饱和蒸气压计算
+
+使用安托因方程计算饱和蒸气压：
+
+$ log_(10) p^0 = A - (B / (T + C)) $
+
+其中，$p^0$的单位为mmHg，$T$的单位为°C。
+
+乙醇的安托因方程参数：A = 8.04494, B = 1554.3, C = 222.65
+正丙醇的安托因方程参数：A = 7.99733, B = 1569.7, C = 209.5
+
+=== 活度系数计算
+
+使用以下公式计算活度系数：
+
+$ gamma_i = (y_i P) / (x_i p_i^0) $
+
+其中，$gamma_i$是组分i的活度系数，$y_i$和$x_i$分别是气相和液相中组分i的摩尔分数，$P$是系统总压（101325 Pa），$p_i^0$是纯组分i在系统温度下的饱和蒸气压（单位：mmHg）。
+
+== 计算示例
 
 以数据表中第一行（温度92°C）为例：
+
+=== 液相组成计算
 
 液相折光指数 $n_D = 1.3772$
 
 计算质量分数：
-$ W = 58.844116 - 42.61325 times 1.3772 = 0.1571 $
+$ w_1 = 58.844116 - 42.61325 times 1.3772 = 0.1571 $
 
 计算摩尔分数：
-$ X_A = (0.1571 / 46) / ((0.1571 / 46) + ((1 - 0.1571) / 60)) = 0.1956 $
+$ x_1 = (0.1571 / 46) / ((0.1571 / 46) + ((1 - 0.1571) / 60)) = 0.1956 $
 
-=== 气相计算示例
-
-同样以第一行数据为例：
+=== 气相组成计算
 
 气相折光指数 $n_D = 1.3766$
 
 计算质量分数：
-$ W = 58.844116 - 42.61325 times 1.3766 = 0.1827 $
+$ w_1 = 58.844116 - 42.61325 times 1.3766 = 0.1827 $
 
 计算摩尔分数：
-$ X_A = (0.1827 / 46) / ((0.1827 / 46) + ((1 - 0.1827) / 60)) = 0.2258 $
+$ y_1 = (0.1827 / 46) / ((0.1827 / 46) + ((1 - 0.1827) / 60)) = 0.2258 $
 
-这些计算结果与数据处理结果表中的第一行数据相符。通过这种方法，我们可以计算出所有数据点的液相和气相组成。
+=== 饱和蒸气压计算
 
-== 活度系数计算
+对于乙醇（T = 92°C）：
+$ log_(10) p^0_1 = 8.04494 - (1554.3 / (92 + 222.65)) = 2.1052 $
+$ p^0_1 = 10^(2.1052) = 1273.9889 "mmHg" $
 
-使用前面提到的活度系数计算公式，计算每个数据点的活度系数：
+对于正丙醇（T = 92°C）：
+$ log_(10) p^0_2 = 7.99733 - (1569.7 / (92 + 209.5)) = 1.7911 $
+$ p^0_2 = 10^(1.7911) = 618.0565 "mmHg" $
 
-$ gamma_i = (y_i P) / (x_i P_i^0) $
+=== 活度系数计算
 
-其中，$gamma_i$是组分i的活度系数，$y_i$和$x_i$分别是气相和液相中组分i的摩尔分数，$P$是系统总压，$P_i^0$是纯组分i在系统温度下的饱和蒸气压。
+乙醇的活度系数：
+$ gamma_1 = (0.2258 times 101325) / (0.1956 times 1273.9889 times 133.322) = 0.6890 $
 
-=== 活度系数计算示例
-
-以数据表中第一行（温度92°C）为例，计算乙醇的活度系数：
-
-已知数据：
-- 温度 T = 92°C = 365.15 K
-- 液相乙醇摩尔分数 $x"_ethanol"$ = 0.1956
-- 气相乙醇摩尔分数 $y"_ethanol"$ = 0.2258
-- 系统总压 P = 101325 Pa（假设为标准大气压）
-
-首先，我们需要计算乙醇在92°C下的饱和蒸气压。使用安托因方程：
-
-$ log_(10) P^0 = A - (B / (T + C)) $
-
-乙醇的安托因方程参数：A = 8.11220, B = 1592.864, C = 226.184
-
-$ log_(10) P^0"_ethanol" = 8.11220 - (1592.864 / (92 + 226.184)) = 2.1799 $
-
-$ P^0"_ethanol" = 10^(2.1799) = 151.2 "mmHg" = 20158 "Pa" $
-
-现在我们可以计算活度系数：
-
-$ gamma"_ethanol" = (y"_ethanol" P) / (x"_ethanol" P^0"_ethanol") $
-$ = (0.2258 times 101325) / (0.1956 times 20158) $
-$ = 3.9590 $
-
-这个结果表明，在给定条件下，乙醇的行为偏离了理想溶液的行为（理想溶液的活度系数为1）。
-
-通过这种方法，我们可以计算出所有数据点的活度系数。计算结果见数据处理结果表中的最后两列。
+正丙醇的活度系数：
+$ gamma_2 = ((1 - 0.2258) times 101325) / ((1 - 0.1956) times 618.0565 times 133.322) = 1.1845 $
 
 = 实验结果<no-auto-pagebreak>
 
@@ -157,18 +158,18 @@ $ = 3.9590 $
 
 #figure(
   table(
-    columns: 9,
-    [T (°C)], [液相折光指数], [气相折光指数], [液相质量分数], [气相质量分数], [液相摩尔分数], [气相摩尔分数], [$gamma"_ethanol"$], [$gamma"_propanol"$],
-    [92.0], [1.3772], [1.3766], [0.1571], [0.1827], [0.1956], [0.2258], [3.9590], [4.0625],
-    [90.5], [1.3759], [1.3732], [0.2125], [0.3276], [0.2604], [0.3886], [5.1536], [3.5131],
-    [89.2], [1.3735], [1.3707], [0.3148], [0.4341], [0.3747], [0.5002], [4.6370], [3.4171],
-    [88.0], [1.3719], [1.3686], [0.3830], [0.5236], [0.4474], [0.5891], [4.5992], [3.1962],
-    [87.0], [1.3711], [1.3674], [0.4171], [0.5748], [0.4827], [0.6381], [4.6380], [3.0215],
-    [86.0], [1.3690], [1.3662], [0.5066], [0.6259], [0.5725], [0.6858], [4.2226], [3.1888],
-    [85.0], [1.3672], [1.3645], [0.5833], [0.6983], [0.6461], [0.7512], [4.1175], [3.0639],
-    [84.8], [1.3665], [1.3637], [0.6131], [0.7324], [0.6740], [0.7812], [4.1087], [2.9274],
-    [84.0], [1.3624], [1.3633], [0.7878], [0.7495], [0.8289], [0.7960], [3.4167], [5.2192],
-    [83.5], [1.3610], [1.3615], [0.8475], [0.8262], [0.8788], [0.8611], [3.4944], [5.0278],
+    columns: 13,
+    [T (°C)], [w₁_L], [w₂_L], [w₁_V], [w₂_V], [x₁], [y₁], [x₂], [y₂], [p₁⁰ (mmHg)], [p₂⁰ (mmHg)], [γ₁], [γ₂],
+    [92.0000], [0.1571], [0.8429], [0.1827], [0.8173], [0.1956], [0.2258], [0.8044], [0.7742], [1273.9889], [618.0565], [0.6890], [1.1845],
+    [90.5000], [0.2125], [0.7875], [0.3276], [0.6724], [0.2604], [0.3886], [0.7396], [0.6114], [1206.4351], [582.0987], [0.9408], [1.0802],
+    [89.2000], [0.3148], [0.6852], [0.4341], [0.5659], [0.3747], [0.5002], [0.6253], [0.4998], [1150.3050], [552.3630], [0.8826], [1.1007],
+    [88.0000], [0.3830], [0.6170], [0.5236], [0.4764], [0.4474], [0.5891], [0.5526], [0.4109], [1100.4238], [526.0505], [0.9101], [1.0751],
+    [87.0000], [0.4171], [0.5829], [0.5748], [0.4252], [0.4827], [0.6381], [0.5173], [0.3619], [1060.2342], [504.9312], [0.9482], [1.0540],
+    [86.0000], [0.5066], [0.4934], [0.6259], [0.3741], [0.5725], [0.6858], [0.4275], [0.3142], [1021.2661], [484.5253], [0.8921], [1.1539],
+    [85.0000], [0.5833], [0.4167], [0.6983], [0.3017], [0.6461], [0.7512], [0.3539], [0.2488], [983.4909], [464.8139], [0.8992], [1.1503],
+    [84.8000], [0.6131], [0.3869], [0.7324], [0.2676], [0.6740], [0.7812], [0.3260], [0.2188], [976.0764], [460.9532], [0.9032], [1.1073],
+    [84.0000], [0.7878], [0.2122], [0.7495], [0.2505], [0.8289], [0.7960], [0.1711], [0.2040], [946.8800], [445.7781], [0.7714], [2.0337],
+    [83.5000], [0.8475], [0.1525], [0.8262], [0.1738], [0.8788], [0.8611], [0.1212], [0.1389], [929.0026], [436.5079], [0.8023], [1.9961],
   ),
   caption: [数据处理结果]
 ) <processed-data>
@@ -233,100 +234,145 @@ using DataFrames
 using CSV
 using Plots
 using LaTeXStrings
+using Printf
 
 # 设置中文字体
-default(fontfamily="SimHei")
+default(fontfamily="SimHei");
 
 # 读取数据
-data = CSV.read("experiment1_data.csv", DataFrame)
+data = CSV.read("experiment1_data.csv", DataFrame);
 
 # 定义计算质量分数的函数
-function calculate_mass_fraction(n_D)
-    return 58.844116 - 42.61325 * n_D
-end
+function calculate_mass_fractions(n_D)
+    w₁ = 58.844116 - 42.61325 * n_D  # 乙醇质量分数
+    w₂ = 1 - w₁  # 正丙醇质量分数
+    return w₁, w₂
+end;
 
 # 定义计算摩尔分数的函数
-function calculate_mole_fraction(W_A)
-    M_A = 46  # 乙醇分子量
-    M_B = 60  # 正丙醇分子量
-    return (W_A / M_A) / ((W_A / M_A) + ((1 - W_A) / M_B))
-end
+function calculate_mole_fraction(w₁, w₂)
+    M₁ = 46  # 乙醇分子量
+    M₂ = 60  # 正丙醇分子量
+    n₁ = w₁ / M₁
+    n₂ = w₂ / M₂
+    return n₁ / (n₁ + n₂)
+end;
 
 # 计算质量分数和摩尔分数
-data.liquid_mass_fraction = calculate_mass_fraction.(data.L)
-data.vapor_mass_fraction = calculate_mass_fraction.(data.V)
-data.liquid_mole_fraction = calculate_mole_fraction.(data.liquid_mass_fraction)
-data.vapor_mole_fraction = calculate_mole_fraction.(data.vapor_mass_fraction)
+data.w₁_L = zeros(nrow(data));  # 液相乙醇质量分数
+data.w₂_L = zeros(nrow(data));  # 液相正丙醇质量分数
+data.w₁_V = zeros(nrow(data));  # 气相乙醇质量分数
+data.w₂_V = zeros(nrow(data));  # 气相正丙醇质量分数
+data.x₁ = zeros(nrow(data));    # 液相乙醇摩尔分数
+data.y₁ = zeros(nrow(data));    # 气相乙醇摩尔分数
+data.x₂ = zeros(nrow(data));    # 液相正丙醇摩尔分数
+data.y₂ = zeros(nrow(data));    # 气相正丙醇摩尔分数
 
-# 绘制 t-x-y 曲线图
-p1 = plot(data.liquid_mole_fraction, data.T, label="液相", marker=:circle);
-plot!(p1, data.vapor_mole_fraction, data.T, label="气相", marker=:square);
-xlabel!(p1, L"x, y");
-ylabel!(p1, "温度 (°C)");
+for i in 1:nrow(data)
+    data.w₁_L[i], data.w₂_L[i] = calculate_mass_fractions(data.L[i])
+    data.w₁_V[i], data.w₂_V[i] = calculate_mass_fractions(data.V[i])
+    data.x₁[i] = calculate_mole_fraction(data.w₁_L[i], data.w₂_L[i])
+    data.y₁[i] = calculate_mole_fraction(data.w₁_V[i], data.w₂_V[i])
+    data.x₂ = 1 .- data.x₁
+    data.y₂ = 1 .- data.y₁
+end;
+
+# 绘制 T-x-y 曲线图
+p1 = plot(data.x₁, data.t, label="液相", marker=:circle);
+plot!(p1, data.y₁, data.t, label="气相", marker=:square);
+xlabel!(p1, L"x_1, y_1");
+ylabel!(p1, "t (°C)");
 title!(p1, "乙醇-正丙醇体系的 t-x-y 相图")
 savefig(p1, "experiment1_res/t-x-y_plot.png")
 
 # 绘制 x-y 曲线图
-p2 = plot(data.liquid_mole_fraction, data.vapor_mole_fraction, label="实验数据", marker=:circle);
+p2 = plot(data.x₁, data.y₁, label="实验数据", marker=:circle);
 plot!(p2, [0, 1], [0, 1], label="对角线", linestyle=:dash);
-xlabel!(p2, L"x");
-ylabel!(p2, L"y");
+xlabel!(p2, L"x_1");
+ylabel!(p2, L"y_1");
 title!(p2, "乙醇-正丙醇体系的 x-y 相图")
 savefig(p2, "experiment1_res/x-y_plot.png")
 
-# 计算 ln(P_0) 的函数
-function calculate_ln_p0(A, B, C, T)
-    return A - B / (C + T)
-end
+# 计算 lg(p⁰) 的函数
+function calculate_lg_p⁰(A, B, C, t)
+    return A - B / (t + C)
+end;
 
-# 计算 P_0 的函数 (单位：Pa)
-function calculate_p0(ln_p0)
-    return exp(ln_p0) * 133.322  # 将 mmHg 转换为 Pa
-end
+# 计算 p⁰ 的函数 (单位：# mmHg)
+function calculate_p⁰(lg_p⁰)
+    return 10^(lg_p⁰)
+end;
 
 # 计算活度系数的函数
-function calculate_activity_coefficient(x, y, p0_1, p0_2)
-    P = 101325  # 标准大气压，Pa
-    gamma_1 = y * P / (x * p0_1)
-    gamma_2 = (1 - y) * P / ((1 - x) * p0_2)
-    return gamma_1, gamma_2
-end
+function calculate_activity_coefficient(x₁, y₁, p₁⁰, p₂⁰)
+    P = 101325 / 133.22     # (单位：# mmHg)
+    γ₁ = y₁ * P / (x₁ * p₁⁰)
+    γ₂ = (1 - y₁) * P / ((1 - x₁) * p₂⁰)
+    return γ₁, γ₂
+end;
 
 # 安托因方程参数
-A_1 = 8.04494
-B_1 = 1554.3
-C_1 = 222.65
+A₁ = 8.04494;
+B₁ = 1554.3;
+C₁ = 222.65;
 
-A_2 = 7.74416
-B_2 = 1437.686
-C_2 = 198.463
+A₂ = 7.99733;
+B₂ = 1569.7;
+C₂ = 209.5;
 
 # 计算每个数据点的活度系数
-data.gamma_1 = zeros(nrow(data))
-data.gamma_2 = zeros(nrow(data))
+data.p₁⁰ = zeros(nrow(data));
+data.p₂⁰ = zeros(nrow(data));
+data.γ₁ = zeros(nrow(data));
+data.γ₂ = zeros(nrow(data));
 
 for i in 1:nrow(data)
-    T = data.T[i] + 273.15  # 转换为开尔文温度
+    t = data.t[i]
 
-    ln_p0_1 = calculate_ln_p0(A_1, B_1, C_1, T)
-    ln_p0_2 = calculate_ln_p0(A_2, B_2, C_2, T)
+    lg_p₁⁰ = calculate_lg_p⁰(A₁, B₁, C₁, t)
+    lg_p₂⁰ = calculate_lg_p⁰(A₂, B₂, C₂, t)
 
-    p0_1 = calculate_p0(ln_p0_1)
-    p0_2 = calculate_p0(ln_p0_2)
+    p₁⁰ = calculate_p⁰(lg_p₁⁰)
+    p₂⁰ = calculate_p⁰(lg_p₂⁰)
 
-    data.gamma_1[i], data.gamma_2[i] = calculate_activity_coefficient(
-        data.liquid_mole_fraction[i],
-        data.vapor_mole_fraction[i],
-        p0_1,
-        p0_2
+    data.p₁⁰[i] = p₁⁰
+    data.p₂⁰[i] = p₂⁰
+
+    data.γ₁[i], data.γ₂[i] = calculate_activity_coefficient(
+        data.x₁[i],
+        data.y₁[i],
+        p₁⁰,
+        p₂⁰
     )
-end
+end;
 
-# 打印活度系数
-println("活度系数:")
-println(select(data, [:T, :liquid_mole_fraction, :vapor_mole_fraction, :gamma_1, :gamma_2]))
+# 定义一个函数来格式化数字为四位小数的字符串
+function four_decimals(x)
+    return @sprintf("%.4f", x)
+end;
+
+# 创建一个新的 DataFrame，按照所需的顺序排列列并保存为四位小数的字符串
+result_data = DataFrame(
+    t   = four_decimals.(data.t),
+    w₁_L= four_decimals.(data.w₁_L),
+    w₂_L= four_decimals.(data.w₂_L),
+    w₁_V= four_decimals.(data.w₁_V),
+    w₂_V= four_decimals.(data.w₂_V),
+    x₁  = four_decimals.(data.x₁),
+    y₁  = four_decimals.(data.y₁),
+    x₂  = four_decimals.(data.x₂),
+    y₂  = four_decimals.(data.y₂),
+    p₁⁰ = four_decimals.(data.p₁⁰),
+    p₂⁰ = four_decimals.(data.p₂⁰),
+    γ₁  = four_decimals.(data.γ₁),
+    γ₂  = four_decimals.(data.γ₂)
+);
+
+# 打印结果
+println("结果:")
+println(result_data)
 
 # 将结果保存到CSV文件
-CSV.write("experiment1_res/results.csv", data)
+CSV.write("experiment1_res/results.csv", result_data)
 ```
 ````
