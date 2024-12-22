@@ -83,5 +83,5 @@ savefig("./experiment2_res/P-V.png")
 
 # 输出处理后的数据
 for (i, df) in enumerate(processed_data)
-    CSV.write("./experiment2_res/processed_data_group_$i.csv", df)
+    CSV.write("./experiment2_res/result_$i.csv", df)
 end
