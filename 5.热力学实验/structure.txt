@@ -1,6 +1,5 @@
 |-- 文件夹: 1.docFiles
-|   |-- 文件: 二元汽液平衡数据测定实验.doc
-|   |-- 文件: 化学工程与工艺专业实验报告册（试行）.doc
+|   |-- 文件: 气液平衡实验说明.doc
 |-- 文件夹: 2.pdfFiles
 |-- 文件夹: 3.typst
 |   |-- 文件夹: example
@@ -39,6 +38,8 @@
 |-- 文件: experiment2.jl
 |-- 文件: experiment2_data.csv
 |-- 文件夹: experiment2_res
+|   |-- 文件: combined_processed_data.csv
+|   |-- 文件: combined_processed_data.py
 |   |-- 文件: processed_data_group_1.csv
 |   |-- 文件: processed_data_group_10.csv
 |   |-- 文件: processed_data_group_2.csv
@@ -51,5 +52,3 @@
 |   |-- 文件: processed_data_group_9.csv
 |-- 文件: structure.py
 |-- 文件: structure.txt
-|-- 文件: task1.txt
-|-- 文件: task2.txt
