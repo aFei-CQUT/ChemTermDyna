@@ -4,6 +4,7 @@ using Plots
 using LaTeXStrings
 using Statistics
 using Measures
+using Printf
 
 # 读取数据，跳过第一行（列名）
 data = CSV.read("experiment2_data.csv", DataFrame, header=["T", "P", "h"], skipto=2)
@@ -40,11 +41,10 @@ function process_data(group)
 
     for row in eachrow(group)
         T = row.T
-        P = row.P
+        P = row.P + 1.01325  # 将压力转换为绝对压力 (MPa)
         h = row.h
         V = (h0 - h) / (k * 1000)  # 计算比容 (m³/kg)
         is_starred = row.is_starred
-
         push!(df, (T, P, h, V, is_starred))
     end
 
@@ -83,5 +83,24 @@ savefig("./experiment2_res/P-V.png")
 
 # 输出处理后的数据
 for (i, df) in enumerate(processed_data)
-    CSV.write("./experiment2_res/result_$i.csv", df)
+    result_data = DataFrame(
+        T=[@sprintf("%.1f", x) for x in df.T],
+        P=[@sprintf("%.4f", x) for x in df.P],
+        h=[@sprintf("%.1f", x) for x in df.h],
+        V=[@sprintf("%.7f", x) for x in df.V]
+    )
+    CSV.write("./experiment2_res/result_$i.csv", result_data)
+end
+
+# 打印结果
+println("结果:")
+for (i, df) in enumerate(processed_data)
+    println("Group $i:")
+    println(DataFrame(
+        T=[@sprintf("%.1f", x) for x in df.T],
+        P=[@sprintf("%.4f", x) for x in df.P],
+        h=[@sprintf("%.1f", x) for x in df.h],
+        V=[@sprintf("%.7f", x) for x in df.V]
+    ))
+    println()
 end
