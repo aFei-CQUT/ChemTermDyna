@@ -87,7 +87,8 @@ for (i, df) in enumerate(processed_data)
         T=[@sprintf("%.1f", x) for x in df.T],
         P=[@sprintf("%.4f", x) for x in df.P],
         h=[@sprintf("%.1f", x) for x in df.h],
-        V=[@sprintf("%.7f", x) for x in df.V]
+        V=[@sprintf("%.7f", x) for x in df.V],
+        is_starred=df.is_starred
     )
     CSV.write("./experiment2_res/result_$i.csv", result_data)
 end
@@ -100,7 +101,8 @@ for (i, df) in enumerate(processed_data)
         T=[@sprintf("%.1f", x) for x in df.T],
         P=[@sprintf("%.4f", x) for x in df.P],
         h=[@sprintf("%.1f", x) for x in df.h],
-        V=[@sprintf("%.7f", x) for x in df.V]
+        V=[@sprintf("%.7f", x) for x in df.V],
+        is_starred=df.is_starred
     ))
     println()
 end

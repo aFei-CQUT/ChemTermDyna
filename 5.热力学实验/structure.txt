@@ -53,5 +53,7 @@
 |   |-- 文件: result_7.csv
 |   |-- 文件: result_8.csv
 |   |-- 文件: result_9.csv
+|   |-- 文件: Tablex.jl
+|   |-- 文件: Tablex.typ
 |-- 文件: structure.py
 |-- 文件: structure.txt
