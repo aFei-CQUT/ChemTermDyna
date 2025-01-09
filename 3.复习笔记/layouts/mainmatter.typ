@@ -61,7 +61,9 @@
   set text(font: text-font, size: text-size)
 
   set par(leading: par-leading, justify: true, first-line-indent: 2em)
-  show par: set block(spacing: par-spacing)
+
+  // 使用固定的行间距
+  set par(leading: 1.5em)
 
   // 特殊类型文本
   // 代码块
@@ -215,12 +217,12 @@
   // 处理页脚的页码
   set page(footer: [
     #align(center)[
-      #text(counter(page).display("1"))
+      #context {
+        counter(page).display("1")
+      }
     ]
   ])
   counter(page).update(1)
-
-
-
+  
   it
 }

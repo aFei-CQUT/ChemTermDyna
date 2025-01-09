@@ -38,12 +38,14 @@
     font = (字体.黑体, 字体.宋体)
   }
 
-  // 2.  正式渲染
+  // 2. 正式渲染
   pagebreak(weak: true, to: if twoside { "odd" })
   // 配置页码和页脚
   set page(footer: [
     #align(center)[
-      #text(counter(page).display("I"))
+      #context {
+        counter(page).display("I")
+      }
     ]
   ])
   counter(page).update(1)
