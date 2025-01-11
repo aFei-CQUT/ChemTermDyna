@@ -26,8 +26,9 @@ data.P = parse.(Float64, replace.(data.P_str, "*" => ""))
 data.h = parse.(Float64, replace.(data.h_str, "*" => ""))
 
 # 常量
-k = (332 / 1000) / 0.00124 # 质面比常数 (单位: kg/m²)
 h0 = 359                   # 毛细管顶端刻度 (单位: mm)
+h_base = 332               # 定标基准 h_base (单位: mm)
+k = ((h0 - h_base) / 1000) / 0.00124 # 质面比常数 (单位: kg/m²)
 
 # 处理数据的函数
 function process_data(group)
@@ -69,8 +70,8 @@ ylabel!(L"Pressure (MPa)");
 title!(L"P-V Diagram for CO_2");
 
 # 调整 x 轴
-xlims!(0, 0.0015);
-x_ticks = 0:0.0001:0.0015
+xlims!(0, 0.0100);
+x_ticks = 0:0.0005:0.0100
 x_labels = [L"%$(round(x, digits=4))" for x in x_ticks]
 xticks!(x_ticks, x_labels, rotation=45, tickfont=font(8));
 
