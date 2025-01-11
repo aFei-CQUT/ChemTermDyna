@@ -373,6 +373,6 @@ println("结果:")
 println(result_data)
 
 # 将结果保存到CSV文件
-CSV.write("experiment1_res/results.csv", result_data)
+CSV.write("experiment1_res/result.csv", result_data)
 ```
 ````
